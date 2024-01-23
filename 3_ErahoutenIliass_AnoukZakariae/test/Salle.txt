@@ -1,0 +1,8 @@
+BlocA salle4
+BlocA salle5
+BlocA salle16
+BlocA salle17
+Amphi B
+Amphi A
+BlocB salle5
+BlocB salle15

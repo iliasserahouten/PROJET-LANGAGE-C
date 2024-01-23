@@ -1,0 +1,230 @@
+<html>
+<head>
+<title>main.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #cf8e6d;}
+.s4 { color: #bcbec4;}
+.s5 { color: #2aacb8;}
+.s6 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.c</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&lt;stdio.h&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;stdlib.h&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;string.h&gt;</span>
+
+
+<span class="s3">typedef struct </span><span class="s4">{</span>
+    <span class="s3">char </span><span class="s1">nom</span><span class="s4">[</span><span class="s5">20</span><span class="s4">], </span><span class="s1">prenom</span><span class="s4">[</span><span class="s5">20</span><span class="s4">];</span>
+    <span class="s3">char </span><span class="s1">id</span><span class="s4">[</span><span class="s5">100</span><span class="s4">];  </span><span class="s6">// nom d'utilisateur //</span>
+    <span class="s3">char </span><span class="s1">mot_de_passe</span><span class="s4">[</span><span class="s5">20</span><span class="s4">];</span>
+    <span class="s3">int </span><span class="s1">type_utilisateur</span><span class="s4">;  </span><span class="s6">// 1 = administration, 2 = professeur, 3 = étudiant</span>
+<span class="s4">}</span><span class="s1">utilisateur</span><span class="s4">;</span>
+<span class="s3">typedef struct </span><span class="s4">{</span>
+    <span class="s3">char </span><span class="s1">cne</span><span class="s4">[</span><span class="s5">15</span><span class="s4">];</span>
+    <span class="s3">char </span><span class="s1">nom</span><span class="s4">[</span><span class="s5">10</span><span class="s4">];</span>
+    <span class="s3">char </span><span class="s1">prenom</span><span class="s4">[</span><span class="s5">10</span><span class="s4">];</span>
+    <span class="s3">char </span><span class="s1">cycle</span><span class="s4">[</span><span class="s5">10</span><span class="s4">];</span>
+    <span class="s3">char </span><span class="s1">fil</span><span class="s4">[</span><span class="s5">10</span><span class="s4">];</span>
+    <span class="s3">char </span><span class="s1">semestre</span><span class="s4">[</span><span class="s5">10</span><span class="s4">];</span>
+<span class="s4">} </span><span class="s1">etud</span><span class="s4">;</span>
+
+
+<span class="s3">typedef struct</span><span class="s4">{</span>
+    <span class="s3">int </span><span class="s1">jour</span><span class="s4">,</span><span class="s1">mois</span><span class="s4">,</span><span class="s1">annee</span><span class="s4">,</span><span class="s1">heure</span><span class="s4">,</span><span class="s1">minute</span><span class="s4">;</span>
+<span class="s4">} </span><span class="s1">date</span><span class="s4">;</span>
+<span class="s3">typedef struct </span><span class="s4">{</span>
+    <span class="s3">char </span><span class="s1">moduleName</span><span class="s4">[</span><span class="s5">100</span><span class="s4">];  </span><span class="s6">// nom du module //</span>
+    <span class="s3">char </span><span class="s1">professor</span><span class="s4">[</span><span class="s5">100</span><span class="s4">];   </span><span class="s6">// nom professeur //</span>
+<span class="s4">} </span><span class="s1">Module</span><span class="s4">;</span>
+
+<span class="s3">typedef struct </span><span class="s4">{</span>
+    <span class="s3">char </span><span class="s1">SemestreName</span><span class="s4">[</span><span class="s5">20</span><span class="s4">];  </span><span class="s6">// s1, s2, ..., s6 //</span>
+    <span class="s1">Module modules</span><span class="s4">[</span><span class="s5">8</span><span class="s4">];      </span><span class="s6">// au max 8 modules dans chaque semestre //</span>
+<span class="s4">} </span><span class="s1">Semestre</span><span class="s4">;</span>
+
+<span class="s3">typedef struct </span><span class="s4">{</span>
+    <span class="s3">char </span><span class="s1">nom_filiere</span><span class="s4">[</span><span class="s5">20</span><span class="s4">];  </span><span class="s6">// genie ... ou tdia ou id //</span>
+<span class="s4">} </span><span class="s1">Filiere</span><span class="s4">;</span>
+
+<span class="s3">typedef struct </span><span class="s4">{</span>
+    <span class="s3">char </span><span class="s1">CycleName</span><span class="s4">[</span><span class="s5">20</span><span class="s4">];     </span><span class="s6">// CI ou CP //</span>
+    <span class="s1">Filiere filiere</span><span class="s4">[</span><span class="s5">7</span><span class="s4">];     </span><span class="s6">// -- pour CP ou 7 filiere dans CI //</span>
+    <span class="s1">Semestre semstre</span><span class="s4">[</span><span class="s5">5</span><span class="s4">];    </span><span class="s6">// 5 semestre pour chaque filiere dans le CI et 4 semestre dans CP //</span>
+<span class="s4">}</span><span class="s1">Cycle</span><span class="s4">;</span>
+<span class="s6">//fonction pour converter les etudiantans en fichier binaire</span>
+<span class="s3">void </span><span class="s1">convert</span><span class="s4">(){</span>
+    <span class="s1">etud e</span><span class="s4">;</span>
+    <span class="s1">FILE </span><span class="s4">*</span><span class="s1">f</span><span class="s4">=</span><span class="s1">fopen</span><span class="s4">(</span><span class="s2">&quot;étudiant.txt&quot;</span><span class="s4">,</span><span class="s2">&quot;r&quot;</span><span class="s4">);</span>
+    <span class="s1">FILE </span><span class="s4">*</span><span class="s1">b</span><span class="s4">=</span><span class="s1">fopen</span><span class="s4">(</span><span class="s2">&quot;étudiant.bin&quot;</span><span class="s4">,</span><span class="s2">&quot;wb&quot;</span><span class="s4">);</span>
+    <span class="s3">if</span><span class="s4">(</span><span class="s1">f</span><span class="s4">==</span><span class="s1">NULL </span><span class="s4">|| </span><span class="s1">b</span><span class="s4">==</span><span class="s1">NULL</span><span class="s4">){</span>
+        <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;error&quot;</span><span class="s4">);</span>
+    <span class="s4">}</span>
+
+    <span class="s3">else</span><span class="s4">{</span>
+        <span class="s3">while</span><span class="s4">(</span><span class="s1">fscanf</span><span class="s4">(</span><span class="s1">f</span><span class="s4">,</span><span class="s2">&quot;%s %s %s %s %s %s&quot;</span><span class="s4">,</span><span class="s1">e</span><span class="s4">.</span><span class="s1">cne</span><span class="s4">,</span><span class="s1">e</span><span class="s4">.</span><span class="s1">nom</span><span class="s4">,</span><span class="s1">e</span><span class="s4">.</span><span class="s1">prenom</span><span class="s4">,</span><span class="s1">e</span><span class="s4">.</span><span class="s1">cycle</span><span class="s4">,</span><span class="s1">e</span><span class="s4">.</span><span class="s1">fil</span><span class="s4">,</span><span class="s1">e</span><span class="s4">.</span><span class="s1">semestre</span><span class="s4">)!=</span><span class="s1">EOF</span><span class="s4">){</span>
+            <span class="s1">fwrite</span><span class="s4">(&amp;</span><span class="s1">e</span><span class="s4">,</span><span class="s3">sizeof</span><span class="s4">(</span><span class="s1">etud</span><span class="s4">),</span><span class="s5">1</span><span class="s4">,</span><span class="s1">b</span><span class="s4">);</span>
+        <span class="s4">}</span>
+    <span class="s4">}</span>
+    <span class="s1">fclose</span><span class="s4">(</span><span class="s1">f</span><span class="s4">);</span>
+    <span class="s1">fclose</span><span class="s4">(</span><span class="s1">b</span><span class="s4">);</span>
+<span class="s4">}</span>
+<span class="s3">void </span><span class="s1">afficherexams</span><span class="s4">(){</span>
+
+<span class="s4">}</span>
+
+<span class="s3">int </span><span class="s1">AfficherMenuAdmin</span><span class="s4">() {</span>
+    <span class="s3">int </span><span class="s1">option</span><span class="s4">;</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        ------------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">1) Ajouter/modifier/supprimer des examens         |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">2) Affecter des professeurs à des examens         |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">3) Gerer les salles d'examen et les horaires      |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">4) Afficher planification des examens             |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">5) Quitter                                        |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        -----------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot; </span><span class="s3">\t\t </span><span class="s2">Entrez votre choix: &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%d&quot;</span><span class="s4">, &amp;</span><span class="s1">option</span><span class="s4">);</span>
+    <span class="s3">return </span><span class="s1">option</span><span class="s4">;</span>
+<span class="s4">}</span>
+
+<span class="s3">void </span><span class="s1">AfficherSousMenuAdmin</span><span class="s4">(</span><span class="s3">int </span><span class="s1">option</span><span class="s4">) {</span>
+    <span class="s3">int </span><span class="s1">choix</span><span class="s4">;</span>
+    <span class="s1">Cycle </span><span class="s4">*</span><span class="s1">a</span><span class="s4">;</span>
+    <span class="s3">switch </span><span class="s4">(</span><span class="s1">option</span><span class="s4">) {</span>
+        <span class="s3">case </span><span class="s5">1</span><span class="s4">:</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        ------------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">1) Ajouter des examens                        |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">2) Supprimer des examens                      |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">3) Modifier des examens                       |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">4) Retour                                     |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">5) Quitter                                    |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        -----------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot; </span><span class="s3">\t\t </span><span class="s2">Entrez votre choix: &quot;</span><span class="s4">);</span>
+            <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%d&quot;</span><span class="s4">, &amp;</span><span class="s1">choix</span><span class="s4">);</span>
+            <span class="s3">switch </span><span class="s4">(</span><span class="s1">choix</span><span class="s4">){</span>
+                <span class="s3">case </span><span class="s5">1</span><span class="s4">:</span>
+
+                    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">Entrer le cycle : (CP || CI) &quot;</span><span class="s4">);</span>
+                    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%s&quot;</span><span class="s4">,</span><span class="s1">a</span><span class="s4">-&gt;</span><span class="s1">CycleName</span><span class="s4">);</span>
+
+
+            <span class="s4">}</span>
+
+            <span class="s3">case </span><span class="s5">4</span><span class="s4">:</span>
+                <span class="s1">AfficherMenuAdmin</span><span class="s4">();</span>
+
+            <span class="s3">case </span><span class="s5">5</span><span class="s4">:</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;au revoir</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s3">return</span><span class="s4">;</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+<span class="s3">int </span><span class="s1">AfficherMenuProffeseur</span><span class="s4">() {</span>
+    <span class="s3">int </span><span class="s1">option</span><span class="s4">;</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        --------------------------------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">1) Consulter les examens attribuer                                     |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">2) Quitter                                                             |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        --------------------------------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot; </span><span class="s3">\t\t </span><span class="s2">Entrez votre choix: &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%d&quot;</span><span class="s4">, &amp;</span><span class="s1">option</span><span class="s4">);</span>
+    <span class="s3">return </span><span class="s1">option</span><span class="s4">;</span>
+<span class="s4">}</span>
+
+<span class="s3">void </span><span class="s1">AfficherSousMenuProffeseur</span><span class="s4">(</span><span class="s3">int </span><span class="s1">option</span><span class="s4">) {</span>
+
+    <span class="s3">switch </span><span class="s4">(</span><span class="s1">option</span><span class="s4">) {</span>
+        <span class="s3">case </span><span class="s5">1</span><span class="s4">:</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        --------------------------------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">1) CP                                                                          |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">2) CI                                                                          |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">3) Quitter                                                                     |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        --------------------------------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot; </span><span class="s3">\t\t </span><span class="s2">Entrez votre choix: &quot;</span><span class="s4">);</span>
+            <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%d&quot;</span><span class="s4">, &amp;</span><span class="s1">option</span><span class="s4">);</span>
+
+            <span class="s3">break</span><span class="s4">;</span>
+        <span class="s3">case </span><span class="s5">2</span><span class="s4">:</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\t\t\t\t\t\t</span><span class="s2">Au revoir</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s3">break</span><span class="s4">;</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+<span class="s3">int </span><span class="s1">AfficherMenuEtudiant</span><span class="s4">() {</span>
+
+    <span class="s3">int </span><span class="s1">option</span><span class="s4">;</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        ----------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">1) Consulter le planing des examens         |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">2) Quitter                                  |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        ----------------------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot; </span><span class="s3">\t\t </span><span class="s2">Entrez votre choix: &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%d&quot;</span><span class="s4">, &amp;</span><span class="s1">option</span><span class="s4">);</span>
+    <span class="s3">return </span><span class="s1">option</span><span class="s4">;</span>
+<span class="s4">}</span>
+
+<span class="s3">void </span><span class="s1">AfficherSousMenuEtudiant</span><span class="s4">(</span><span class="s3">int </span><span class="s1">option</span><span class="s4">) {</span>
+    <span class="s3">switch </span><span class="s4">(</span><span class="s1">option</span><span class="s4">) {</span>
+        <span class="s3">case </span><span class="s5">1</span><span class="s4">:</span>
+            <span class="s6">// Function to display exam schedule</span>
+            <span class="s3">break</span><span class="s4">;</span>
+        <span class="s3">case </span><span class="s5">2</span><span class="s4">:</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot; </span><span class="s3">\t\t\t\t\t\t\t </span><span class="s2">Au revoir</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+            <span class="s3">break</span><span class="s4">;</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+<span class="s3">void </span><span class="s1">connexion</span><span class="s4">(</span><span class="s1">utilisateur </span><span class="s4">*</span><span class="s1">usr</span><span class="s4">) {</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        --------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">1) Administration               |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">2) Professeur                   |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">3) Etudiant                     |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        |</span><span class="s3">\t\t </span><span class="s2">4) Quitter                      |</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;        -------------------------------------------------</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot; </span><span class="s3">\t\t </span><span class="s2">Entrez votre type d'utilisateur: &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%d&quot;</span><span class="s4">, &amp;</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">type_utilisateur</span><span class="s4">);</span>
+
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">type_utilisateur </span><span class="s4">== </span><span class="s5">4</span><span class="s4">) {</span>
+        <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;Au revoir.</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+        <span class="s3">return</span><span class="s4">;</span>
+    <span class="s4">}</span>
+
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;Nom : &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%s&quot;</span><span class="s4">, </span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">nom</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">Prenom : &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%s&quot;</span><span class="s4">, </span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">prenom</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">Identifiant : &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%s&quot;</span><span class="s4">, </span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">id</span><span class="s4">);</span>
+    <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">Mot de passe : &quot;</span><span class="s4">);</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s2">&quot;%s&quot;</span><span class="s4">, </span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">mot_de_passe</span><span class="s4">);</span>
+
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">type_utilisateur </span><span class="s4">== </span><span class="s5">1 </span><span class="s4">&amp;&amp; </span><span class="s1">strcmp</span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">id</span><span class="s4">, </span><span class="s2">&quot;ensah@etu.uae.ac.ma&quot;</span><span class="s4">) == </span><span class="s5">0 </span><span class="s4">&amp;&amp; </span><span class="s1">strcmp</span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">mot_de_passe</span><span class="s4">, </span><span class="s2">&quot;ENSAH&quot;</span><span class="s4">) == </span><span class="s5">0</span><span class="s4">) {</span>
+        <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\t\t\t\t\t </span><span class="s2">Bienvenue</span><span class="s3">\t\t\t\t\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+        <span class="s1">AfficherSousMenuAdmin</span><span class="s4">(</span><span class="s1">AfficherMenuAdmin</span><span class="s4">());</span>
+    <span class="s4">} </span><span class="s3">if </span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">type_utilisateur </span><span class="s4">== </span><span class="s5">2 </span><span class="s4">&amp;&amp; </span><span class="s1">strcmp</span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">id</span><span class="s4">, </span><span class="s2">&quot;professeur@etu.uae.ac.ma&quot;</span><span class="s4">) == </span><span class="s5">0 </span><span class="s4">&amp;&amp; </span><span class="s1">strcmp</span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">mot_de_passe</span><span class="s4">, </span><span class="s2">&quot;PROF&quot;</span><span class="s4">) == </span><span class="s5">0</span><span class="s4">) {</span>
+        <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\t\t\t\t\t </span><span class="s2">Bienvenue</span><span class="s3">\t\t\t\t\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+        <span class="s1">AfficherSousMenuProffeseur</span><span class="s4">(</span><span class="s1">AfficherMenuProffeseur</span><span class="s4">());</span>
+    <span class="s4">} </span><span class="s3">if </span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">type_utilisateur </span><span class="s4">== </span><span class="s5">3 </span><span class="s4">&amp;&amp; </span><span class="s1">strcmp</span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">id</span><span class="s4">, </span><span class="s2">&quot;etudiant@etu.uae.ac.ma&quot;</span><span class="s4">) == </span><span class="s5">0 </span><span class="s4">&amp;&amp; </span><span class="s1">strcmp</span><span class="s4">(</span><span class="s1">usr</span><span class="s4">-&gt;</span><span class="s1">mot_de_passe</span><span class="s4">, </span><span class="s2">&quot;ETUD&quot;</span><span class="s4">) == </span><span class="s5">0</span><span class="s4">) {</span>
+        <span class="s1">printf</span><span class="s4">(</span><span class="s2">&quot;</span><span class="s3">\t\t\t\t\t </span><span class="s2">Bienvenue</span><span class="s3">\t\t\t\t\n</span><span class="s2">&quot;</span><span class="s4">);</span>
+        <span class="s1">AfficherSousMenuEtudiant</span><span class="s4">(</span><span class="s1">AfficherMenuEtudiant</span><span class="s4">());</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+<span class="s3">int </span><span class="s1">main</span><span class="s4">() {</span>
+    <span class="s1">utilisateur usr</span><span class="s4">;</span>
+
+    <span class="s1">connexion</span><span class="s4">(&amp;</span><span class="s1">usr</span><span class="s4">);</span>
+
+    <span class="s3">return </span><span class="s5">0</span><span class="s4">;</span>
+<span class="s4">}</span>
+</pre>
+</body>
+</html>

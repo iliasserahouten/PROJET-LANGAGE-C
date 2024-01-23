@@ -1,0 +1,27 @@
+Algebre1 PR.ABOUELHANOUNE CP -- S1
+Analyse1 PR.ADDAM CP -- S1
+Physique1 PR.ELKHALDI CP -- S1
+Mecanique1 PR.BEGHDADI CP -- S1
+Informatique1 PR.REGRAGI CP -- S1
+Langues1 PR.FILALI CP -- S1
+Algebre2 PR.BOUJRAF CP -- S2
+Analyse2 PR.MOUSSAID CP -- S2
+Physique2 PR.TISKATINE CP -- S2
+Chimie1 PR.ELKASMI CP -- S2
+Geologie PR.NOUAYTI CP -- S2
+Langues2 PR.AMANCHAR CP -- S2
+Langues3 PR.ELKHATTABI CP -- S3
+Algebre3 PR.BOUJRAF CP -- S3
+Analyse3 PR.MOUSSAID CP -- S3
+Physique3 PR.BOULANOUAR CP -- S3
+Mecanique2 PR.BEGHDADI CP -- S3
+Informatique2 PR.KANNOUF CP -- S3
+Informatique3 PR.ADDAM CP -- S4
+Mathematiques#appliquee PR.SLIMANI CP -- S4
+Analyse4 PR.MORADI CP -- S4
+Physique4 PR.AMGHAR CP -- S4
+Electronique PR.DRIOUACH CP -- S4
+Chimie2 PR.MHAMDI CP -- S4
+
+LINUX PR.cherradi CP -- S1
+DATA PR.ADDAM CP -- S4
